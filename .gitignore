@@ -11,9 +11,7 @@ lerna-debug.log*
 test_*.js
 test_*.mjs
 test_*.cjs
-test_gemini.js
-test_all_flows.js
-test_openrouter.js
+!Backend/test_all_flows.js
 
 # Dependency directories
 node_modules/
