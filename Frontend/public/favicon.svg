@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="areteGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8823a" />
+      <stop offset="100%" stop-color="#c65d2e" />
+    </linearGradient>
+  </defs>
+  <path d="M50 5 L90 25 L90 75 L50 95 L10 75 L10 25 Z" fill="url(#areteGradient)" />
+  <path d="M50 15 L80 30 L80 70 L50 85 L20 70 L20 30 Z" fill="#0f0d0b" />
+  <path d="M50 28 L68 70 H57 L50 53 L43 70 H32 Z M43 47 H57" fill="url(#areteGradient)" />
+</svg>

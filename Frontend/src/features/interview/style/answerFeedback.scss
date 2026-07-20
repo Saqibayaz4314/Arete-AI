@@ -1,0 +1,306 @@
+.answer-feedback-container {
+  margin-top: 1.5rem;
+  background: rgba(22, 19, 17, 0.4);
+  border: 1px solid rgba(245, 240, 234, 0.08);
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  animation: feedback-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  .feedback-header {
+    border-bottom: 1px solid rgba(245, 240, 234, 0.06);
+    padding-bottom: 0.5rem;
+    h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .scores-overview {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background: rgba(15, 13, 11, 0.3);
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(245, 240, 234, 0.03);
+
+    @media (max-width: 640px) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    .main-score-circle {
+      flex: 0 0 auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .sub-scores-grid {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .sub-score-bar-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+
+      .bar-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
+      .bar-track {
+        height: 6px;
+        background: rgba(245, 240, 234, 0.05);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        height: 100%;
+        background: var(--accent-gradient);
+        border-radius: 3px;
+        transition: width 0.8s ease-out;
+      }
+    }
+  }
+
+  .feedback-details-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    // Set strengths to span full width if there are no improvements, otherwise let it flow
+    & > :only-child {
+      grid-column: span 2;
+    }
+  }
+
+  .feedback-section {
+    background: rgba(22, 19, 17, 0.2);
+    border: 1px solid rgba(245, 240, 234, 0.03);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+
+    h5 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      line-height: 1.4;
+
+      .bullet-icon {
+        flex: 0 0 auto;
+        margin-top: 2px;
+      }
+
+      p {
+        flex: 1;
+        color: var(--text-secondary);
+      }
+    }
+
+    &.strengths-sec {
+      h5 {
+        color: var(--success);
+      }
+    }
+
+    &.improvements-sec {
+      h5 {
+        color: var(--accent-primary);
+      }
+    }
+
+    &.missing-sec {
+      grid-column: span 2;
+      border-color: rgba(184, 69, 58, 0.2);
+      h5 {
+        color: var(--danger);
+      }
+    }
+  }
+
+  .rewritten-example-wrapper {
+    background: rgba(22, 19, 17, 0.3);
+    border: 1px solid rgba(245, 240, 234, 0.04);
+    border-radius: 8px;
+    overflow: hidden;
+
+    .example-toggle-btn {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      border: none;
+      padding: 0.9rem 1.2rem;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: rgba(245, 240, 234, 0.02);
+      }
+
+      .chevron {
+        transition: transform 0.3s ease;
+      }
+
+      &.active {
+        background: rgba(232, 130, 58, 0.05);
+        color: var(--accent-primary);
+        border-bottom: 1px solid rgba(245, 240, 234, 0.04);
+        
+        .chevron {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .example-content-drawer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &.open {
+        max-height: 350px;
+        overflow-y: auto;
+      }
+    }
+
+    .example-content-inner {
+      padding: 1.2rem;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      background: rgba(15, 13, 11, 0.4);
+      border-top: 1px solid rgba(245, 240, 234, 0.03);
+    }
+  }
+}
+
+// Micro score ring styles nested for feedback small scale
+.score-circle-wrapper.small {
+  width: 70px;
+  height: 70px;
+
+  .score-number-text {
+    .num {
+      font-size: 1.15rem !important;
+      text-shadow: 0 0 8px rgba(232, 130, 58, 0.3);
+    }
+    .lbl.font-xs {
+      font-size: 0.55rem;
+    }
+  }
+}
+
+@keyframes feedback-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.practice-response-section {
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px dashed rgba(245, 240, 234, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+
+  h5 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .practice-textarea {
+    width: 100%;
+    background: rgba(15, 13, 11, 0.4);
+    border: 1px solid rgba(245, 240, 234, 0.1);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    resize: vertical;
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 10px rgba(232, 130, 58, 0.15);
+      background: rgba(15, 13, 11, 0.6);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  .eval-error-text {
+    font-size: 0.8rem;
+    color: var(--danger);
+    font-weight: 500;
+  }
+
+  .practice-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .small-btn {
+    padding-inline: 1.2rem;
+    padding-block: 0.5rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+}

@@ -1,0 +1,25 @@
+.button{
+  border: none;
+  outline: none;
+  padding-inline: 1rem;
+  padding-block: 0.7rem;
+  border-radius: 0.7rem;
+  cursor: pointer;
+
+  transition: all 0.3s ease-in-out;
+
+  &.primary-button{
+    background: var(--accent-gradient);
+    color: #f5f0ea;
+    box-shadow: 0 4px 12px rgba(232, 130, 58, 0.15);
+    font-weight: 600;
+    
+    &:hover {
+      background: var(--accent-gradient-hover);
+      box-shadow: 0 4px 15px rgba(232, 130, 58, 0.25);
+    }
+  }
+  &:active{
+    transform: scale(0.95);
+  }
+}

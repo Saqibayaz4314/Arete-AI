@@ -1,0 +1,159 @@
+$primary-amber: #e8823a;
+$secondary-rust: #c65d2e;
+$bg-darker: #0f0d0b;
+$card-bg: rgba(20, 15, 10, 0.65);
+$card-border: rgba(255, 255, 255, 0.08);
+$text-light: #f5f0ea;
+$text-dim: #8c8275;
+$transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+main.auth-main {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $bg-darker;
+  background-image: radial-gradient(circle at top right, rgba(232, 130, 58, 0.1), transparent 40%),
+                    radial-gradient(circle at bottom left, rgba(198, 93, 46, 0.1), transparent 40%);
+  color: $text-light;
+  padding: 2rem;
+
+  .auth-container {
+    width: 100%;
+    max-width: 420px;
+    background: $card-bg;
+    border: 1px solid $card-border;
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(232, 130, 58, 0.05);
+    backdrop-filter: blur(12px);
+    animation: fadeIn 0.6s ease-out;
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-align: center;
+      background: linear-gradient(135deg, $text-light, $primary-amber);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        label {
+          font-size: 0.95rem;
+          font-weight: 500;
+          color: $text-dim;
+        }
+
+        input {
+          width: 100%;
+          background: rgba(10, 10, 10, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 12px;
+          color: $text-light;
+          padding: 0.9rem 1rem;
+          font-family: inherit;
+          font-size: 1rem;
+          outline: none;
+          transition: $transition-smooth;
+
+          &:focus {
+            border-color: $primary-amber;
+            box-shadow: 0 0 0 3px rgba(232, 130, 58, 0.15);
+            background: rgba(15, 10, 5, 0.8);
+          }
+
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+          }
+        }
+      }
+
+      .btn-submit {
+        margin-top: 1rem;
+        background: linear-gradient(135deg, $primary-amber 0%, $secondary-rust 100%);
+        color: white;
+        font-family: inherit;
+        font-size: 1.05rem;
+        font-weight: 600;
+        padding: 0.9rem;
+        border-radius: 12px;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 4px 15px rgba(232, 130, 58, 0.3);
+        transition: $transition-smooth;
+
+        &:hover {
+          box-shadow: 0 6px 20px rgba(232, 130, 58, 0.5);
+          transform: translateY(-2px);
+        }
+
+        &:active {
+          transform: translateY(1px);
+        }
+      }
+    }
+
+    .auth-footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: $text-dim;
+
+      a {
+        color: $primary-amber;
+        text-decoration: none;
+        font-weight: 600;
+        margin-left: 0.25rem;
+        transition: $transition-smooth;
+
+        &:hover {
+          color: $secondary-rust;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .forgot-pass-link {
+      display: block;
+      text-align: right;
+      font-size: 0.85rem;
+      color: $primary-amber;
+      text-decoration: none;
+      margin-top: -0.5rem;
+      transition: $transition-smooth;
+
+      &:hover {
+        color: $secondary-rust;
+      }
+    }
+    
+    .error-msg {
+      color: #e8823a;
+      background: rgba(232, 130, 58, 0.1);
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(232, 130, 58, 0.2);
+    }
+  }
+}

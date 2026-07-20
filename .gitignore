@@ -1,0 +1,41 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Diagnostic / Test scripts
+test_*.js
+test_*.mjs
+test_*.cjs
+test_gemini.js
+test_all_flows.js
+test_openrouter.js
+
+# Dependency directories
+node_modules/
+jspm_packages/
+web_modules/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Build & Dist
+dist/
+dist-ssr/
+build/
+*.local
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.user
+*.useros scaffolding
