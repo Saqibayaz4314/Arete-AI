@@ -9,8 +9,23 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "http://arete-ai.duckdns.org",
+  "https://arete-ai.duckdns.org",
+  "http://159.223.112.70",
+  "https://159.223.112.70",
+  process.env.CLIENT_URL
+].filter(Boolean);
+
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.duckdns.org')) {
+      return callback(null, true);
+    }
+    return callback(null, true);
+  },
   credentials: true
 }))
 
