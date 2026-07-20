@@ -36,10 +36,11 @@ services:
       context: ./Frontend
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: http://localhost:3000
+        VITE_API_URL: http://arete-ai.duckdns.org:3000
     container_name: arete-frontend
     restart: always
     ports:
+      - "80:80"
       - "5173:80"
     depends_on:
       - backend
