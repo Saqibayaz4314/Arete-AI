@@ -139,32 +139,59 @@ const sendEmail = async (options) => {
   const smtpUser = process.env.SMTP_EMAIL;
   const smtpPass = process.env.SMTP_PASSWORD;
 
+  // 1. Try Brevo HTTPS API if BREVO_API_KEY is present or if key starts with xkeysib
+  const brevoApiKey = process.env.BREVO_API_KEY || (smtpPass && smtpPass.startsWith("xkeysib") ? smtpPass : null);
+  if (brevoApiKey) {
+    try {
+      console.log("[Email] Attempting delivery via Brevo HTTPS API...");
+      const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+        method: "POST",
+        headers: {
+          "accept": "application/json",
+          "api-key": brevoApiKey,
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          sender: { name: process.env.FROM_NAME || "Arete AI", email: process.env.FROM_EMAIL || "ayazs4314@gmail.com" },
+          to: [{ email: options.email }],
+          subject: options.subject,
+          textContent: options.message,
+          htmlContent: options.html || (options.resetUrl ? getResetPasswordHtml(options.resetUrl, options.username || "Candidate") : undefined)
+        })
+      });
+      const data = await res.json();
+      if (res.status === 201 || res.status === 200 || data.messageId) {
+        console.log("✅ [Brevo API] Email delivered via HTTPS to %s (ID: %s)", options.email, data.messageId || data.id);
+        return data;
+      }
+      console.warn("⚠️ [Brevo API] Response:", res.status, data);
+    } catch (e) {
+      console.warn("⚠️ [Brevo API] Error:", e.message);
+    }
+  }
+
+  // 2. Fallback: Nodemailer SMTP on Port 2525
   if (!smtpUser || !smtpPass) {
-    throw new Error("SMTP credentials (SMTP_EMAIL / SMTP_PASSWORD) are missing in environment variables.");
+    throw new Error("SMTP credentials (SMTP_EMAIL / SMTP_PASSWORD) missing.");
   }
 
   const port = parseInt(process.env.SMTP_PORT || "2525");
   const host = process.env.SMTP_HOST || "smtp-relay.brevo.com";
-  const isSecure = port === 465;
 
-  console.log(`[SMTP] Connecting to ${host}:${port} (secure: ${isSecure})...`);
-
-  // Configure Nodemailer transporter supporting alternate VPS SMTP port 2525
+  console.log(`[SMTP] Connecting to ${host}:${port}...`);
   const transporter = nodemailer.createTransport({
     host,
     port,
-    secure: isSecure,
+    secure: port === 465,
     auth: {
       user: smtpUser,
       pass: smtpPass,
     },
-    family: 4, // Force IPv4 to avoid VPS socket timeout
+    family: 4,
     connectionTimeout: 8000,
     greetingTimeout: 6000,
     socketTimeout: 8000,
-    tls: {
-      rejectUnauthorized: false
-    }
+    tls: { rejectUnauthorized: false }
   });
 
   const message = {
