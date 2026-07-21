@@ -26,8 +26,11 @@ async function registerUserController(req, res){
         message: "Passwords do not match"
       })
     }
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanUsername = username.trim();
+
     const isUserAlreadyExists = await userModel.findOne({
-      $or: [{username}, {email}]
+      $or: [{ username: cleanUsername }, { email: cleanEmail }]
     })
 
     if(isUserAlreadyExists){
@@ -82,9 +85,11 @@ async function registerUserController(req, res){
 */
 
 async function loginUserController(req, res){
-  const {email, password} = req.body
+  const cleanEmail = email ? email.trim().toLowerCase() : "";
 
-  const user = await userModel.findOne({email})
+  const user = await userModel.findOne({
+    $or: [{ email: cleanEmail }, { username: email ? email.trim() : "" }]
+  })
   if(!user){
     return res.status(400).json({
       message: "Invalid email or password"
