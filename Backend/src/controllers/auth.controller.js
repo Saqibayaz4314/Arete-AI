@@ -165,36 +165,40 @@ async function getMeController(req, res){
 }
 
 async function forgotPasswordController(req, res) {
-  const user = await userModel.findOne({ email: req.body.email });
-
-  if (!user) {
-    return res.status(404).json({ message: "There is no user with that email" });
-  }
-
-  // Get reset token
-  const resetToken = user.getResetPasswordToken();
-  await user.save({ validateBeforeSave: false });
-
-  // Create reset url
-  const resetUrl = `${process.env.CLIENT_URL || "http://localhost:5173"}/reset-password/${resetToken}`;
-
-  const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
-
   try {
-    await sendEmail({
-      email: user.email,
-      subject: "Password reset token",
-      message,
-    });
+    const user = await userModel.findOne({ email: req.body.email });
 
-    res.status(200).json({ success: true, message: "Email sent" });
-  } catch (error) {
-    console.error(error);
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
+    if (!user) {
+      return res.status(404).json({ message: "There is no account associated with that email" });
+    }
+
+    // Get reset token
+    const resetToken = user.getResetPasswordToken();
     await user.save({ validateBeforeSave: false });
 
-    return res.status(500).json({ message: "Email could not be sent" });
+    // Create reset url (fallback to live HTTPS domain)
+    const baseUrl = process.env.CLIENT_URL || "https://arete-ai.duckdns.org";
+    const resetUrl = `${baseUrl}/reset-password/${resetToken}`;
+
+    const message = `You are receiving this email because a password reset request was made for your Arete-AI account. Please use the link below to set a new password:\n\n${resetUrl}\n\nThis link expires in 10 minutes.`;
+
+    await sendEmail({
+      email: user.email,
+      subject: "Password Reset Request — Arete-AI",
+      message,
+      resetUrl,
+      username: user.username || "Candidate"
+    });
+
+    res.status(200).json({ success: true, message: "Password reset link sent to your email!" });
+  } catch (error) {
+    console.error("Forgot Password Error:", error);
+    if (user) {
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+      await user.save({ validateBeforeSave: false });
+    }
+    return res.status(500).json({ message: "Email could not be sent: " + error.message });
   }
 }
 
