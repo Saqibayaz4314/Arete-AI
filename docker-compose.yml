@@ -28,6 +28,12 @@ services:
       - MONGO_URI=mongodb://mongodb:27017/interview-master
       - JWT_SECRET=arete_super_secret_jwt_key_2026_prod
       - GROQ_API_KEY=${GROQ_API_KEY}
+      - SMTP_HOST=${SMTP_HOST:-smtp.gmail.com}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_EMAIL=${SMTP_EMAIL:-ayazs4314@gmail.com}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-aegilkgyqbfjmtzx}
+      - FROM_NAME=${FROM_NAME:-Arete.ai}
+      - FROM_EMAIL=${FROM_EMAIL:-ayazs4314@gmail.com}
     depends_on:
       - mongodb
 
