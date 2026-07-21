@@ -143,18 +143,17 @@ const sendEmail = async (options) => {
     throw new Error("SMTP credentials (SMTP_EMAIL / SMTP_PASSWORD) are missing in environment variables.");
   }
 
-  // Primary: Use SMTPS port 465 (SSL) to avoid DigitalOcean port 587 STARTTLS blocking
+  // Use service: 'gmail' with forced IPv4 family resolution to prevent DigitalOcean socket timeouts
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || "smtp.gmail.com",
-    port: 465,
-    secure: true, // true for 465 SMTPS
+    service: "gmail",
     auth: {
       user: smtpUser,
       pass: smtpPass,
     },
-    tls: {
-      rejectUnauthorized: false
-    }
+    family: 4, // Force IPv4 to prevent VPS IPv6 socket timeouts
+    connectionTimeout: 15000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
   });
 
   const message = {
