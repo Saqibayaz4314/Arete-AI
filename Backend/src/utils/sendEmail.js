@@ -143,17 +143,44 @@ const sendEmail = async (options) => {
     throw new Error("SMTP credentials (SMTP_EMAIL / SMTP_PASSWORD) are missing in environment variables.");
   }
 
-  // Use service: 'gmail' with forced IPv4 family resolution to prevent DigitalOcean socket timeouts
+  // 1. Resend API over HTTPS Port 443 (if RESEND_API_KEY is configured in env)
+  if (process.env.RESEND_API_KEY) {
+    try {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          from: `${process.env.FROM_NAME || "Arete AI"} <onboarding@resend.dev>`,
+          to: [options.email],
+          subject: options.subject,
+          text: options.message,
+          html: options.html || (options.resetUrl ? getResetPasswordHtml(options.resetUrl, options.username || "Candidate") : undefined)
+        })
+      });
+      const data = await res.json();
+      if (data.id) {
+        console.log("✅ [Resend API] Sent email via HTTPS to %s (ID: %s)", options.email, data.id);
+        return data;
+      }
+    } catch (e) {
+      console.warn("⚠️ [Resend API] Failed, falling back to Nodemailer:", e.message);
+    }
+  }
+
+  // 2. Nodemailer Transporter with fast timeout to avoid blocking VPS responses
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: smtpUser,
       pass: smtpPass,
     },
-    family: 4, // Force IPv4 to prevent VPS IPv6 socket timeouts
-    connectionTimeout: 15000,
-    greetingTimeout: 10000,
-    socketTimeout: 15000,
+    family: 4,
+    connectionTimeout: 5000,
+    greetingTimeout: 4000,
+    socketTimeout: 5000,
   });
 
   const message = {

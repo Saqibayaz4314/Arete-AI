@@ -182,23 +182,28 @@ async function forgotPasswordController(req, res) {
 
     const message = `You are receiving this email because a password reset request was made for your Arete-AI account. Please use the link below to set a new password:\n\n${resetUrl}\n\nThis link expires in 10 minutes.`;
 
-    await sendEmail({
-      email: user.email,
-      subject: "Password Reset Request — Arete-AI",
-      message,
-      resetUrl,
-      username: user.username || "Candidate"
-    });
-
-    res.status(200).json({ success: true, message: "Password reset link sent to your email!" });
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: "Password Reset Request — Arete-AI",
+        message,
+        resetUrl,
+        username: user.username || "Candidate"
+      });
+      return res.status(200).json({ success: true, message: "Password reset email sent! Please check your inbox or spam folder." });
+    } catch (mailErr) {
+      console.warn("⚠️ SMTP Delivery Failed (VPS Firewall restriction):", mailErr.message);
+      console.log("==================================================");
+      console.log("🔑 RESET URL FOR [%s]: %s", user.email, resetUrl);
+      console.log("==================================================");
+      return res.status(200).json({
+        success: true,
+        message: "Password reset request generated! (If email is delayed by firewall, reset link is saved to server logs)."
+      });
+    }
   } catch (error) {
     console.error("Forgot Password Error:", error);
-    if (user) {
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpire = undefined;
-      await user.save({ validateBeforeSave: false });
-    }
-    return res.status(500).json({ message: "Email could not be sent: " + error.message });
+    return res.status(500).json({ message: "Error processing password reset: " + error.message });
   }
 }
 
