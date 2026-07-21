@@ -16,8 +16,9 @@ async function generateInterviewReportController(req, res){
 
     let resumeContent = ""
     try {
-      const pdfResult = await new pdfParse.PDFParse(Uint8Array.from(req.file.buffer)).getText()
-      resumeContent = pdfResult.text
+      const parser = new pdfParse.PDFParse({ data: req.file.buffer, verbosity: 0 })
+      const pdfResult = await parser.getText()
+      resumeContent = pdfResult.text || (typeof pdfResult === 'string' ? pdfResult : "")
     } catch (pdfErr) {
       console.error("PDF parse error:", pdfErr.message)
       return res.status(400).json({ message: "Could not read your PDF. Please upload a valid, text-based PDF resume." })
