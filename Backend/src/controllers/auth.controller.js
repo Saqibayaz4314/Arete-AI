@@ -48,10 +48,11 @@ async function registerUserController(req, res){
       process.env.JWT_SECRET,
       {expiresIn: "1d"}
     )
+    const isSecure = req.secure || req.headers["x-forwarded-proto"] === "https";
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: isSecure,
+      sameSite: isSecure ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000 // 1 day
     })
     res.status(201).json({
@@ -101,10 +102,11 @@ async function loginUserController(req, res){
     process.env.JWT_SECRET,
     {expiresIn: "1d"}
   )
+  const isSecure = req.secure || req.headers["x-forwarded-proto"] === "https";
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: isSecure,
+    sameSite: isSecure ? "none" : "lax",
     maxAge: 24 * 60 * 60 * 1000
   })
   res.status(200).json({
