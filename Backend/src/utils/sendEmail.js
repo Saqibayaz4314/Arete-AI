@@ -136,10 +136,37 @@ function getResetPasswordHtml(resetUrl, username = "Candidate") {
 }
 
 const sendEmail = async (options) => {
-  const smtpUser = process.env.SMTP_EMAIL;
-  const smtpPass = process.env.SMTP_PASSWORD;
+  // 1. Resend API over HTTPS (Port 443) - Preferred for 100% Google/Yahoo DMARC Alignment
+  if (process.env.RESEND_API_KEY) {
+    try {
+      console.log("[Email] Attempting delivery via Resend HTTPS API...");
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          from: "Arete AI <onboarding@resend.dev>",
+          to: [options.email],
+          subject: options.subject,
+          text: options.message,
+          html: options.html || (options.resetUrl ? getResetPasswordHtml(options.resetUrl, options.username || "Candidate") : undefined)
+        })
+      });
+      const data = await res.json();
+      if (res.status === 200 || data.id) {
+        console.log("🎉 [Resend API] Email delivered successfully via HTTPS to %s (ID: %s)", options.email, data.id);
+        return data;
+      }
+      console.warn("⚠️ [Resend API] Response:", res.status, data);
+    } catch (e) {
+      console.warn("⚠️ [Resend API] Error:", e.message);
+    }
+  }
 
-  // 1. Try Brevo HTTPS API if BREVO_API_KEY is present or if key starts with xkeysib
+  // 2. Try Brevo HTTPS API if BREVO_API_KEY is present
+  const smtpPass = process.env.SMTP_PASSWORD;
   const brevoApiKey = process.env.BREVO_API_KEY || (smtpPass && smtpPass.startsWith("xkeysib") ? smtpPass : null);
   if (brevoApiKey) {
     try {
@@ -152,7 +179,7 @@ const sendEmail = async (options) => {
           "content-type": "application/json"
         },
         body: JSON.stringify({
-          sender: { name: process.env.FROM_NAME || "Arete AI", email: process.env.FROM_EMAIL || "ayazs4314@gmail.com" },
+          sender: { name: process.env.FROM_NAME || "Arete AI", email: process.env.FROM_EMAIL || "saqibdev24@gmail.com" },
           to: [{ email: options.email }],
           subject: options.subject,
           textContent: options.message,
@@ -170,7 +197,8 @@ const sendEmail = async (options) => {
     }
   }
 
-  // 2. Fallback: Nodemailer SMTP on Port 2525
+  // 3. Fallback: Nodemailer SMTP on Port 2525
+  const smtpUser = process.env.SMTP_EMAIL;
   if (!smtpUser || !smtpPass) {
     throw new Error("SMTP credentials (SMTP_EMAIL / SMTP_PASSWORD) missing.");
   }
