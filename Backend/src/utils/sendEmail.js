@@ -1,11 +1,12 @@
 const nodemailer = require("nodemailer");
 
 const sendEmail = async (options) => {
-  const defaultUser = "ayazs4314@gmail.com";
-  const defaultPass = "aegilkgyqbfjmtzx";
+  const smtpUser = process.env.SMTP_EMAIL;
+  const smtpPass = process.env.SMTP_PASSWORD;
 
-  const smtpUser = process.env.SMTP_EMAIL || defaultUser;
-  const smtpPass = process.env.SMTP_PASSWORD || defaultPass;
+  if (!smtpUser || !smtpPass) {
+    throw new Error("SMTP credentials (SMTP_EMAIL / SMTP_PASSWORD) are missing in environment variables.");
+  }
 
   // Create a transporter
   const transporter = nodemailer.createTransport({

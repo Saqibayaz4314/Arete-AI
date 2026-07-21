@@ -20,11 +20,9 @@ function parseAiJson(text) {
 }
 
 async function callAiJson(prompt, maxTokens = 1500) {
-  const p1 = "gsk_KCx79GYACXeq";
-  const p2 = "QAZWSdCMWGdyb3FYxD6QxNCEzvpayaopxV8WkyoE";
-  const groqKey = process.env.GROQ_API_KEY || `${p1}${p2}`;
+  const groqKey = process.env.GROQ_API_KEY;
   if (!groqKey) {
-    throw new Error("GROQ_API_KEY is missing in .env environment variables.");
+    throw new Error("GROQ_API_KEY is missing in environment variables.");
   }
 
   // Active production Groq models (mixtral was decommissioned by Groq)
