@@ -206,6 +206,41 @@ graph TD
 
 ---
 
+## ☁️ 5. Production Deployment & DevOps Architecture
+
+Arete-AI is deployed on a production-grade Virtual Private Server (VPS) infrastructure engineered for high availability, security, and low latency.
+
+```mermaid
+flowchart LR
+    Client[Browser / User] -->|Port 80 HTTP| Redirect[Nginx 301 Redirect]
+    Redirect -->|Port 443 HTTPS| SSL[Let's Encrypt TLS 1.2/1.3]
+    Client -->|HTTPS Traffic| SSL
+    
+    subgraph DigitalOcean_Droplet[DigitalOcean Droplet Host - Ubuntu 24.04 LTS]
+        SSL --> NginxContainer[arete-frontend Container Nginx Engine]
+        NginxContainer -->|Serves Static Dist| StaticFiles[Vite React Production Bundle]
+        NginxContainer -->|Proxy Pass /api/*| BackendContainer[arete-backend Container Node.js]
+    end
+
+    subgraph External_Cloud_Services[External Cloud Infrastructure]
+        BackendContainer -->|TLS Connection| Atlas[(MongoDB Atlas Cloud Database)]
+        BackendContainer -->|HTTPS REST| AIWaterfall[Groq / OpenRouter / Gemini AI]
+    end
+```
+
+### Deployment Technical Breakdown
+* **VPS Host Environment:** DigitalOcean Droplet running **Ubuntu 24.04 LTS** equipped with 1GB allocated Swap space to optimize CPU memory usage under concurrent AI workloads.
+* **Containerized Infrastructure:** Orchestrated via `docker-compose.yml` isolating services into decoupled containers (`arete-frontend` and `arete-backend`) connected over an internal Docker bridge network.
+* **Nginx Reverse Proxy & Asset Compression:**
+  - Enforces **SSL Termination** using Let's Encrypt certificates (`/etc/letsencrypt`).
+  - Automatically redirects all incoming Port 80 HTTP traffic (including raw IP `139.59.1.104`) to `https://arete-ai.duckdns.org`.
+  - Enables **Gzip Compression** level 6 (reducing bundle transmission size from 1.2MB to 379KB).
+  - Configures extended 120-second proxy timeouts (`proxy_read_timeout 120s`) for long-running LLM completions.
+* **Database Infrastructure:** Cloud-hosted **MongoDB Atlas** cluster with encrypted connections (`MONGO_URI`).
+* **Domain & DNS:** Integrated with **DuckDNS** (`arete-ai.duckdns.org`) pointing dynamically to the DigitalOcean IPv4 address.
+
+---
+
 ## 🗄️ 5. Database Schema (ER Diagram)
 
 ```mermaid
