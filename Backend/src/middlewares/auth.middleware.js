@@ -2,7 +2,10 @@ const jwt = require("jsonwebtoken")
 const tokenBlackListModel = require("../models/blacklist.model")
 
 async function authUser(req, res, next) {
-  const token = req.cookies.token
+  // Support dual authentication: Cookie OR Authorization Header (Bearer token)
+  const authHeader = req.headers.authorization
+  const headerToken = authHeader && authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null
+  const token = req.cookies?.token || headerToken
 
   if (!token) {
     return res.status(401).json({ message: "Token not provided" })
@@ -15,7 +18,6 @@ async function authUser(req, res, next) {
       return res.status(401).json({ message: "Token is invalid (logged out)" })
     }
   } catch (dbErr) {
-    // DB temporarily unavailable — skip blacklist check, let JWT verify proceed
     console.warn("[Auth] Blacklist DB check failed (skipping):", dbErr.message)
   }
 
@@ -29,4 +31,4 @@ async function authUser(req, res, next) {
   }
 }
 
-module.exports = { authUser }
+module.exports = { authUser }
