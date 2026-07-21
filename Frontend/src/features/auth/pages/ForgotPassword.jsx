@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import API_BASE from '../../../utils/api';
 import '../auth.form.scss';
 import { useToast } from '../../../context/ToastContext';
 
@@ -19,7 +20,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/auth/forgot-password`,
+        `${API_BASE}/api/auth/forgot-password`,
         { email },
         { withCredentials: true }
       );

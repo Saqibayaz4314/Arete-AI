@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { useParams, useNavigate, useLocation } from "react-router-dom"
 import axios from "axios"
+import API_BASE from "../../../utils/api"
 import { useToast } from "../../../context/ToastContext"
 import "../style/mockInterview.scss"
 
@@ -102,7 +103,7 @@ const MockInterview = () => {
       try {
         setLoadingReport(true)
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/interview/report/${interviewId}`,
+          `${API_BASE}/api/interview/report/${interviewId}`,
           { withCredentials: true }
         )
         if (response.data && response.data.interviewReport) {
@@ -326,7 +327,7 @@ const MockInterview = () => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/evaluation/${interviewId}/${currentQuestion.type}/${currentQuestion.originalIndex}`,
+        `${API_BASE}/api/evaluation/${interviewId}/${currentQuestion.type}/${currentQuestion.originalIndex}`,
         { userAnswer: transcript },
         { withCredentials: true }
       )

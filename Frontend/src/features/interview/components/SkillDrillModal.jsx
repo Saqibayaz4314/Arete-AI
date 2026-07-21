@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_BASE from "../../../utils/api";
 
 const SkillDrillModal = ({ interviewId, skillIndex, skillName, onClose }) => {
   const [loadingQuestions, setLoadingQuestions] = useState(true);
@@ -11,8 +12,6 @@ const SkillDrillModal = ({ interviewId, skillIndex, skillName, onClose }) => {
   const [evaluating, setEvaluating] = useState(false);
   const [evalError, setEvalError] = useState("");
   const [evaluations, setEvaluations] = useState({}); // indexed by question index
-
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
   useEffect(() => {
     const fetchDrillQuestions = async () => {

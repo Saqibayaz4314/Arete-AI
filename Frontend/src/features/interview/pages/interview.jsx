@@ -4,6 +4,7 @@ import "../style/interview.scss"
 import AnswerFeedback from '../components/AnswerFeedback'
 import SkillDrillModal from '../components/SkillDrillModal'
 import axios from 'axios'
+import API_BASE from '../../../utils/api'
 import { useToast } from '../../../context/ToastContext'
 import { generateInterviewReportPdf } from '../utils/generatePdf'
 
@@ -281,7 +282,7 @@ const Interview = () => {
       // 1. Fetch full report from API
       try {
         const reportRes = await axios.get(
-          `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/interview/report/${interviewId}`,
+          `${API_BASE}/api/interview/report/${interviewId}`,
           { withCredentials: true }
         )
         if (reportRes.data?.interviewReport) {
@@ -295,7 +296,7 @@ const Interview = () => {
       // 2. Fetch existing evaluations
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/evaluation/${interviewId}`,
+          `${API_BASE}/api/evaluation/${interviewId}`,
           { withCredentials: true }
         )
         if (res.data && res.data.evaluations) {
@@ -335,7 +336,7 @@ const Interview = () => {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/evaluation/${interviewId}/${type}/${index}`,
+        `${API_BASE}/api/evaluation/${interviewId}/${type}/${index}`,
         { userAnswer: ansText },
         { withCredentials: true }
       )

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import API_BASE from "../../../utils/api";
 import { generateInterviewReportPdf } from "../utils/generatePdf";
 import {
   LineChart,
@@ -86,7 +87,7 @@ const Dashboard = () => {
     setDownloadingId(itemId);
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/interview/report/${itemId}`,
+        `${API_BASE}/api/interview/report/${itemId}`,
         { withCredentials: true }
       );
       if (res.data?.interviewReport) {
@@ -104,7 +105,7 @@ const Dashboard = () => {
     const fetchStats = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/interview/stats/overview`,
+          `${API_BASE}/api/interview/stats/overview`,
           { withCredentials: true }
         );
         setStats(res.data);
@@ -124,7 +125,7 @@ const Dashboard = () => {
       setHistoryLoading(true);
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/interview?page=${historyPage}&limit=${HISTORY_LIMIT}`,
+          `${API_BASE}/api/interview?page=${historyPage}&limit=${HISTORY_LIMIT}`,
           { withCredentials: true }
         );
         setHistory(res.data.interviewReports || []);
