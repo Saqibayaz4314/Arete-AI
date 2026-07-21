@@ -1,19 +1,4 @@
-import axios from "axios";
-import API_BASE from "../../../utils/api";
-
-const api = axios.create({
-  baseURL: API_BASE,
-  withCredentials: true,
-})
-
-// Automatically attach Bearer token from localStorage as a fail-safe backup for cross-origin cloud environments
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+import API_BASE, { api } from "../../../utils/api";
 
 /**
  * @description Generate an interview report based on the candidate's resume, self-description, and job description

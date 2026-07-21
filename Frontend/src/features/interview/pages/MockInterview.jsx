@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react"
 import { useParams, useNavigate, useLocation } from "react-router-dom"
 import axios from "axios"
-import API_BASE from "../../../utils/api"
+import API_BASE, { api } from "../../../utils/api"
+
 import { useToast } from "../../../context/ToastContext"
 import "../style/mockInterview.scss"
 
@@ -102,10 +103,7 @@ const MockInterview = () => {
     const fetchReport = async () => {
       try {
         setLoadingReport(true)
-        const response = await axios.get(
-          `${API_BASE}/api/interview/report/${interviewId}`,
-          { withCredentials: true }
-        )
+        const response = await api.get(`/api/interview/report/${interviewId}`)
         if (response.data && response.data.interviewReport) {
           setReport(response.data.interviewReport)
         } else {
@@ -326,10 +324,9 @@ const MockInterview = () => {
     setErrorMsg("")
 
     try {
-      const response = await axios.post(
-        `${API_BASE}/api/evaluation/${interviewId}/${currentQuestion.type}/${currentQuestion.originalIndex}`,
-        { userAnswer: transcript },
-        { withCredentials: true }
+      const response = await api.post(
+        `/api/evaluation/${interviewId}/${currentQuestion.type}/${currentQuestion.originalIndex}`,
+        { userAnswer: transcript }
       )
 
       if (response.data && response.data.evaluation) {

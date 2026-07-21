@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import API_BASE from '../../../utils/api';
+import API_BASE, { api } from '../../../utils/api';
+
 import '../auth.form.scss';
 import { useToast } from '../../../context/ToastContext';
 
@@ -29,11 +29,7 @@ const ResetPassword = () => {
     setLoading(true);
 
     try {
-      const response = await axios.put(
-        `${API_BASE}/api/auth/reset-password/${token}`,
-        { password },
-        { withCredentials: true }
-      );
+      const response = await api.put(`/api/auth/reset-password/${token}`, { password });
       const msg = response.data.message || 'Password reset successfully. Redirecting to login...';
       setMessage(msg);
       toast.showSuccess(msg);

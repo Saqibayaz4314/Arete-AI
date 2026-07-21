@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import API_BASE from '../../../utils/api';
+import API_BASE, { api } from '../../../utils/api';
+
 import '../auth.form.scss';
 import { useToast } from '../../../context/ToastContext';
 
@@ -19,11 +19,7 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        `${API_BASE}/api/auth/forgot-password`,
-        { email },
-        { withCredentials: true }
-      );
+      const response = await api.post('/api/auth/forgot-password', { email });
       const msg = response.data.message || 'Email sent successfully.';
       setMessage(msg);
       toast.showSuccess(msg);

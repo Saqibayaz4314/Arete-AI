@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import API_BASE from "../../../utils/api";
+import API_BASE, { api } from "../../../utils/api";
+
 
 const SkillDrillModal = ({ interviewId, skillIndex, skillName, onClose }) => {
   const [loadingQuestions, setLoadingQuestions] = useState(true);
@@ -18,11 +19,7 @@ const SkillDrillModal = ({ interviewId, skillIndex, skillName, onClose }) => {
       setLoadingQuestions(true);
       setError("");
       try {
-        const res = await axios.post(
-          `${API_BASE}/api/interview/${interviewId}/drill/${skillIndex}`,
-          {},
-          { withCredentials: true }
-        );
+        const res = await api.post(`/api/interview/${interviewId}/drill/${skillIndex}`, {});
         if (res.data && res.data.questions) {
           setQuestions(res.data.questions);
         } else {
@@ -50,16 +47,12 @@ const SkillDrillModal = ({ interviewId, skillIndex, skillName, onClose }) => {
     const currentQ = questions[currentIndex];
 
     try {
-      const res = await axios.post(
-        `${API_BASE}/api/evaluation/drill`,
-        {
-          question: currentQ.question,
-          intention: currentQ.intention,
-          userAnswer: userAnswer.trim(),
-          skill: skillName,
-        },
-        { withCredentials: true }
-      );
+      const res = await api.post("/api/evaluation/drill", {
+        question: currentQ.question,
+        intention: currentQ.intention,
+        userAnswer: userAnswer.trim(),
+        skill: skillName,
+      });
 
       if (res.data && res.data.evaluation) {
         setEvaluations((prev) => ({

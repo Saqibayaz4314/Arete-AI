@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import API_BASE from '../../../utils/api'
+import API_BASE, { api } from '../../../utils/api'
+
 import { useAuth } from '../../auth/hooks/useAuth'
 import "../style/home.scss"
 import { useToast } from '../../../context/ToastContext'
@@ -248,11 +249,10 @@ const Home = () => {
       formData.append("selfDescription", selfDescription)
       formData.append("targetCompany", targetCompany)
 
-      const response = await axios.post(`${API_BASE}/api/interview`, formData, {
+      const response = await api.post('/api/interview', formData, {
         headers: {
           "Content-Type": "multipart/form-data"
-        },
-        withCredentials: true
+        }
       })
 
       if (response.data && response.data.interviewReport) {

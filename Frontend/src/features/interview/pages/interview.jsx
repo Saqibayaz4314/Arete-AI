@@ -4,7 +4,8 @@ import "../style/interview.scss"
 import AnswerFeedback from '../components/AnswerFeedback'
 import SkillDrillModal from '../components/SkillDrillModal'
 import axios from 'axios'
-import API_BASE from '../../../utils/api'
+import API_BASE, { api } from '../../../utils/api'
+
 import { useToast } from '../../../context/ToastContext'
 import { generateInterviewReportPdf } from '../utils/generatePdf'
 
@@ -281,10 +282,7 @@ const Interview = () => {
 
       // 1. Fetch full report from API
       try {
-        const reportRes = await axios.get(
-          `${API_BASE}/api/interview/report/${interviewId}`,
-          { withCredentials: true }
-        )
+        const reportRes = await api.get(`/api/interview/report/${interviewId}`)
         if (reportRes.data?.interviewReport) {
           setReport(reportRes.data.interviewReport)
           localStorage.setItem(`report_${interviewId}`, JSON.stringify(reportRes.data.interviewReport))
@@ -295,10 +293,7 @@ const Interview = () => {
 
       // 2. Fetch existing evaluations
       try {
-        const res = await axios.get(
-          `${API_BASE}/api/evaluation/${interviewId}`,
-          { withCredentials: true }
-        )
+        const res = await api.get(`/api/evaluation/${interviewId}`)
         if (res.data && res.data.evaluations) {
           const loadedAnswers = {}
           const loadedEvals = {}
@@ -335,10 +330,9 @@ const Interview = () => {
     setEvalErrors(prev => ({ ...prev, [key]: "" }))
 
     try {
-      const res = await axios.post(
-        `${API_BASE}/api/evaluation/${interviewId}/${type}/${index}`,
-        { userAnswer: ansText },
-        { withCredentials: true }
+      const res = await api.post(
+        `/api/evaluation/${interviewId}/${type}/${index}`,
+        { userAnswer: ansText }
       )
       if (res.data && res.data.evaluation) {
         setEvaluations(prev => ({ ...prev, [key]: res.data.evaluation }))

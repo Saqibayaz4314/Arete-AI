@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import API_BASE from "../../../utils/api";
+import API_BASE, { api } from "../../../utils/api";
+
 import { generateInterviewReportPdf } from "../utils/generatePdf";
 import {
   LineChart,
@@ -86,10 +87,7 @@ const Dashboard = () => {
   const handleDownloadRowPdf = async (itemId) => {
     setDownloadingId(itemId);
     try {
-      const res = await axios.get(
-        `${API_BASE}/api/interview/report/${itemId}`,
-        { withCredentials: true }
-      );
+      const res = await api.get(`/api/interview/report/${itemId}`);
       if (res.data?.interviewReport) {
         generateInterviewReportPdf(res.data.interviewReport);
       }
@@ -104,10 +102,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await axios.get(
-          `${API_BASE}/api/interview/stats/overview`,
-          { withCredentials: true }
-        );
+        const res = await api.get("/api/interview/stats/overview");
         setStats(res.data);
       } catch (err) {
         console.error("Fetch stats error:", err);
@@ -124,10 +119,7 @@ const Dashboard = () => {
     const fetchHistory = async () => {
       setHistoryLoading(true);
       try {
-        const res = await axios.get(
-          `${API_BASE}/api/interview?page=${historyPage}&limit=${HISTORY_LIMIT}`,
-          { withCredentials: true }
-        );
+        const res = await api.get(`/api/interview?page=${historyPage}&limit=${HISTORY_LIMIT}`);
         setHistory(res.data.interviewReports || []);
         if (res.data.pagination) setPagination(res.data.pagination);
       } catch (err) {

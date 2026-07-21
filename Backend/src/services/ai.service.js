@@ -25,11 +25,13 @@ async function callAiJson(prompt, maxTokens = 1500) {
     throw new Error("GROQ_API_KEY is missing in environment variables.");
   }
 
-  // Active production Groq models (mixtral was decommissioned by Groq)
+  // Active production Groq models (gemma2-9b-it was decommissioned by Groq)
   const groqModels = [
     "llama-3.3-70b-versatile",
     "llama-3.1-8b-instant",
-    "gemma2-9b-it"
+    "llama3-70b-8192",
+    "llama3-8b-8192",
+    "mixtral-8x7b-32768"
   ];
 
   for (const model of groqModels) {
@@ -92,6 +94,9 @@ async function callAiJson(prompt, maxTokens = 1500) {
 
 
 async function generateInvterviewReport({resume, selfDescription, jobDescription, targetCompany}) {
+  const trimmedResume = (resume || "").slice(0, 3000);
+  const trimmedSelfDesc = (selfDescription || "").slice(0, 1000);
+  const trimmedJobDesc = (jobDescription || "").slice(0, 2500);
 
   let prompt = `
 You are a senior technical interviewer and executive talent coach specialized in calibration for ${targetCompany || "general tier-1 tech companies"}.
@@ -118,17 +123,17 @@ Your goal is to perform a rigorous analysis of the candidate's profile against t
 ### INPUT DATA FOR CALIBRATION:
 - Candidate Resume:
 """
-${resume}
+${trimmedResume}
 """
 
 - Candidate Self Description:
 """
-${selfDescription}
+${trimmedSelfDesc}
 """
 
 - Target Job Description:
 """
-${jobDescription}
+${trimmedJobDesc}
 """
 
 - Target Company Context:
