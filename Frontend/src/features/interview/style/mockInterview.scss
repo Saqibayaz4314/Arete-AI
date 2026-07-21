@@ -873,3 +873,42 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+// ----------------------------------------------------
+// Responsive Media Queries (Mobile & Tablet)
+// ----------------------------------------------------
+@media (max-width: 900px) {
+  .mock-main-layout {
+    flex-direction: column !important;
+    .mock-left-panel, .mock-right-panel {
+      width: 100% !important;
+    }
+  }
+  .feedback-hero-score {
+    flex-direction: column;
+    text-align: center;
+    .subscores-list {
+      grid-template-columns: repeat(3, 1fr) !important;
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .mock-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .feedback-hero-score .subscores-list {
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+  }
+  .response-toolbar {
+    flex-direction: column;
+    button {
+      width: 100%;
+    }
+  }
+}
+

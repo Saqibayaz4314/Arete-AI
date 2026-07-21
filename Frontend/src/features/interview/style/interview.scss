@@ -1175,3 +1175,47 @@ $neon-purple-glow: 0 0 12px rgba(198, 93, 46, 0.15);
     transform: rotate(360deg);
   }
 }
+
+// ----------------------------------------------------
+// Responsive Media Queries (Mobile & Tablet)
+// ----------------------------------------------------
+@media (max-width: 1024px) {
+  .dashboard-wrapper {
+    padding: 1rem;
+    .dashboard-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .report-workspace-main {
+    flex-direction: column !important;
+    .left-panel, .center-panel, .right-panel {
+      width: 100% !important;
+      min-width: 100% !important;
+    }
+  }
+  .history-item-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    .item-actions {
+      width: 100%;
+      justify-content: flex-start;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-wrapper {
+    padding: 0.5rem;
+  }
+  .skill-chip-badge {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+

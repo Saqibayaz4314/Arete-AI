@@ -143,44 +143,28 @@ const sendEmail = async (options) => {
     throw new Error("SMTP credentials (SMTP_EMAIL / SMTP_PASSWORD) are missing in environment variables.");
   }
 
-  // 1. Resend API over HTTPS Port 443 (if RESEND_API_KEY is configured in env)
-  if (process.env.RESEND_API_KEY) {
-    try {
-      const res = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          from: `${process.env.FROM_NAME || "Arete AI"} <onboarding@resend.dev>`,
-          to: [options.email],
-          subject: options.subject,
-          text: options.message,
-          html: options.html || (options.resetUrl ? getResetPasswordHtml(options.resetUrl, options.username || "Candidate") : undefined)
-        })
-      });
-      const data = await res.json();
-      if (data.id) {
-        console.log("✅ [Resend API] Sent email via HTTPS to %s (ID: %s)", options.email, data.id);
-        return data;
-      }
-    } catch (e) {
-      console.warn("⚠️ [Resend API] Failed, falling back to Nodemailer:", e.message);
-    }
-  }
+  const port = parseInt(process.env.SMTP_PORT || "2525");
+  const host = process.env.SMTP_HOST || "smtp-relay.brevo.com";
+  const isSecure = port === 465;
 
-  // 2. Nodemailer Transporter with fast timeout to avoid blocking VPS responses
+  console.log(`[SMTP] Connecting to ${host}:${port} (secure: ${isSecure})...`);
+
+  // Configure Nodemailer transporter supporting alternate VPS SMTP port 2525
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host,
+    port,
+    secure: isSecure,
     auth: {
       user: smtpUser,
       pass: smtpPass,
     },
-    family: 4,
-    connectionTimeout: 5000,
-    greetingTimeout: 4000,
-    socketTimeout: 5000,
+    family: 4, // Force IPv4 to avoid VPS socket timeout
+    connectionTimeout: 8000,
+    greetingTimeout: 6000,
+    socketTimeout: 8000,
+    tls: {
+      rejectUnauthorized: false
+    }
   });
 
   const message = {

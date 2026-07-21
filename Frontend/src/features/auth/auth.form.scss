@@ -157,3 +157,17 @@ main.auth-main {
     }
   }
 }
+
+@media (max-width: 600px) {
+  main.auth-main {
+    padding: 1rem 0.75rem;
+    .auth-container {
+      padding: 2rem 1.25rem;
+      border-radius: 16px;
+      h1 {
+        font-size: 1.75rem;
+      }
+    }
+  }
+}
+

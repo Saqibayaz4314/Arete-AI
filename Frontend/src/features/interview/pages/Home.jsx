@@ -183,7 +183,7 @@ const Home = () => {
     "Reading and parsing Resume PDF...",
     "Analyzing target Job Description requirements...",
     "Matching credentials & analyzing critical skill gaps...",
-    "Formulating optimal technical questions and 30-day timeline..."
+    "Formulating optimal technical questions and 7-day action plan..."
   ]
 
   // File Upload Handlers
@@ -369,7 +369,7 @@ const Home = () => {
             <div className="hero-section">
               <h2>Build the Perfect Interview Strategy</h2>
               <p>
-                Get custom-tailored interview preparation. Provide a Job Description and your Resume to see your Match Score, explore detailed Skill Gaps, and access 30 days of customized study timelines.
+                Get custom-tailored interview preparation. Provide a Job Description and your Resume to see your Match Score, explore detailed Skill Gaps, and access a personalized 7-day study roadmap.
               </p>
             </div>
 
@@ -576,7 +576,7 @@ const Home = () => {
                   className={`tab-link ${activeTab === "plan" ? "active" : ""}`}
                   onClick={() => setActiveTab("plan")}
                 >
-                  30-Day Study Roadmap
+                  7-Day Study Roadmap
                 </button>
               </div>
 
@@ -704,11 +704,11 @@ const Home = () => {
                   </div>
                 )}
 
-                {/* TAB 3: 30-DAY STUDY ROADMAP */}
+                {/* TAB 3: 7-DAY STUDY ROADMAP */}
                 {activeTab === "plan" && (
                   <div className="pane-plan animate-fade-in">
                     <div className="plan-intro">
-                      <h3>30-Day Preparation Syllabus</h3>
+                      <h3>7-Day Preparation Syllabus</h3>
                       <p>Check off tasks as you finish them. A highly organized preparation path ensures structural familiarity with the gaps highlighted in this report.</p>
                     </div>
 
