@@ -46,6 +46,7 @@ Arete-AI bridges this gap by acting as a 24/7 personal AI interview coach:
 * 📑 **PDF Export Engine:** One-click client-side PDF export of full preparation reports via `jsPDF`.
 
 ### 🤖 AI-Powered Features
+* 🎙️ **Interactive AI Mock Interview:** Real-time voice or text mock interview simulator powered by Web Speech API for voice recognition and live AI response evaluation.
 * 📈 **Fit Score & Gap Analysis:** Instant profile compatibility score (0-100%) and ranked technical skill gaps (low/medium/high severity).
 * 📝 **Resume Rewriter & ATS Audit:** Identifies weak, vague resume bullet points, provides rewritten versions with metrics/impact, and flags ATS keyword gaps.
 * 🎯 **Micro-Skill Practice Drills:** Generates 3 progressive scenario questions (fundamentals → applied → trade-offs) for any skill gap.
@@ -193,6 +194,7 @@ graph TD
 | Component | Technology | Purpose |
 | :--- | :--- | :--- |
 | **Frontend** | React 19, Vite, SCSS, Axios | Fast, modern client-side Single Page Application |
+| **Voice & Speech** | Web Speech API (SpeechRecognition) | Real-time voice-to-text input for mock interviews |
 | **Backend** | Node.js v22, Express.js | Asynchronous REST API server |
 | **Database** | MongoDB Atlas | Cloud NoSQL database with Mongoose ODM |
 | **Authentication** | JWT, Cookie-Parser, BcryptJS | Secure session cookies & Bearer fallback |
