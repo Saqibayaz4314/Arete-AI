@@ -85,6 +85,7 @@ async function registerUserController(req, res){
 */
 
 async function loginUserController(req, res){
+  const { email, password } = req.body || {};
   const cleanEmail = email ? email.trim().toLowerCase() : "";
 
   const user = await userModel.findOne({
