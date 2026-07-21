@@ -23,6 +23,7 @@ services:
     ports:
       - "3000:3000"
     environment:
+      - NODE_ENV=production
       - PORT=3000
       - MONGO_URI=mongodb://mongodb:27017/interview-master
       - JWT_SECRET=arete_super_secret_jwt_key_2026_prod
