@@ -13,19 +13,21 @@ app.use(cookieParser())
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "http://arete-ai.duckdns.org",
-  "https://arete-ai.duckdns.org",
-  "http://159.223.112.70",
-  "https://159.223.112.70",
   process.env.CLIENT_URL
 ].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.duckdns.org')) {
+    if (!origin) return callback(null, true); // allow curl / server-to-server
+    if (
+      allowedOrigins.includes(origin) ||
+      origin.endsWith(".vercel.app") ||
+      origin.endsWith(".duckdns.org") ||
+      origin.endsWith(".ondigitalocean.app")
+    ) {
       return callback(null, true);
     }
-    return callback(null, true);
+    return callback(new Error("Not allowed by CORS: " + origin));
   },
   credentials: true
 }))
