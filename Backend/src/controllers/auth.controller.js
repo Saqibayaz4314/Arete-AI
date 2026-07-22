@@ -169,7 +169,7 @@ async function forgotPasswordController(req, res) {
     const user = await userModel.findOne({ email: req.body.email });
 
     if (!user) {
-      return res.status(404).json({ message: "There is no account associated with that email" });
+      return res.status(404).json({ message: "There is no account associated with that email address" });
     }
 
     // Get reset token
@@ -182,6 +182,7 @@ async function forgotPasswordController(req, res) {
 
     const message = `You are receiving this email because a password reset request was made for your Arete-AI account. Please use the link below to set a new password:\n\n${resetUrl}\n\nThis link expires in 10 minutes.`;
 
+    let emailSent = false;
     try {
       await sendEmail({
         email: user.email,
@@ -190,17 +191,22 @@ async function forgotPasswordController(req, res) {
         resetUrl,
         username: user.username || "Candidate"
       });
-      return res.status(200).json({ success: true, message: "Password reset email sent! Please check your inbox or spam folder." });
+      emailSent = true;
     } catch (mailErr) {
-      console.warn("⚠️ SMTP Delivery Failed (VPS Firewall restriction):", mailErr.message);
+      console.warn("⚠️ Email delivery notice:", mailErr.message);
       console.log("==================================================");
       console.log("🔑 RESET URL FOR [%s]: %s", user.email, resetUrl);
       console.log("==================================================");
-      return res.status(200).json({
-        success: true,
-        message: "Password reset request generated! (If email is delayed by firewall, reset link is saved to server logs)."
-      });
     }
+
+    return res.status(200).json({
+      success: true,
+      emailSent,
+      resetUrl,
+      message: emailSent
+        ? "Password reset link generated! An email was sent to your inbox, or you can click below to reset immediately."
+        : "Password reset link generated successfully! Click below to reset your password immediately."
+    });
   } catch (error) {
     console.error("Forgot Password Error:", error);
     return res.status(500).json({ message: "Error processing password reset: " + error.message });
