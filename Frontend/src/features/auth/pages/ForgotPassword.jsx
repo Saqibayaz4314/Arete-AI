@@ -8,6 +8,7 @@ import { useToast } from '../../../context/ToastContext';
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [emailSent, setEmailSent] = useState(false);
   const [resetUrl, setResetUrl] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,18 +20,20 @@ const ForgotPassword = () => {
     setError('');
     setMessage('');
     setResetUrl('');
+    setEmailSent(false);
     setLoading(true);
 
     try {
       const response = await api.post('/api/auth/forgot-password', { email });
       const msg = response.data.message || 'Reset link generated successfully.';
       setMessage(msg);
-      if (response.data.resetUrl) {
+      setEmailSent(response.data.emailSent || false);
+      if (response.data.resetUrl && !response.data.emailSent) {
         setResetUrl(response.data.resetUrl);
       }
       toast.showSuccess(msg);
     } catch (err) {
-      const errMsg = err.response?.data?.message || 'Failed to generate recovery link.';
+      const errMsg = err.response?.data?.message || 'Failed to send recovery email.';
       setError(errMsg);
       toast.showError(errMsg);
     } finally {
@@ -52,16 +55,22 @@ const ForgotPassword = () => {
       <div className="auth-container">
         <h1>Recover Password</h1>
         <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-          Enter your email to generate a direct password reset link.
+          Enter your email to receive a password reset link in your inbox.
         </p>
 
         {error && <div className="error-msg">{error}</div>}
-        {message && <div style={{ color: '#818cf8', background: 'rgba(99, 102, 241, 0.1)', padding: '0.75rem', borderRadius: '8px', textAlign: 'center', marginBottom: '1rem', border: '1px solid rgba(99, 102, 241, 0.2)' }}>{message}</div>}
+        
+        {message && (
+          <div style={{ color: '#818cf8', background: 'rgba(99, 102, 241, 0.1)', padding: '1rem', borderRadius: '10px', textAlign: 'center', marginBottom: '1.5rem', border: '1px solid rgba(99, 102, 241, 0.2)', fontSize: '0.95rem', lineHeight: '1.5' }}>
+            {emailSent ? '📩 ' : ''}{message}
+          </div>
+        )}
 
-        {resetUrl ? (
+        {/* Display reset card ONLY if email delivery was not possible */}
+        {resetUrl && !emailSent && (
           <div className="reset-generated-card" style={{ background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(99, 102, 241, 0.3)', borderRadius: '12px', padding: '1.25rem', marginBottom: '1.5rem', textAlign: 'center' }}>
             <h3 style={{ color: '#f8fafc', fontSize: '1.1rem', marginBottom: '0.5rem' }}>🔑 Direct Reset Link Ready</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '1rem' }}>Click below to immediately set your new password:</p>
+            <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '1rem' }}>Click below to set your new password:</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <a href={resetUrl} className="btn-submit" style={{ display: 'inline-block', textAlign: 'center', textDecoration: 'none', background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)' }}>
                 Reset Password Now ➔
@@ -71,7 +80,9 @@ const ForgotPassword = () => {
               </button>
             </div>
           </div>
-        ) : (
+        )}
+
+        {!emailSent && !resetUrl && (
           <form onSubmit={handleSubmit}>
             <div className="input-group">
               <label htmlFor="email">Email Address</label>
@@ -85,7 +96,7 @@ const ForgotPassword = () => {
               />
             </div>
             <button className="btn-submit" disabled={loading}>
-              {loading ? 'Generating...' : 'Generate Reset Link'}
+              {loading ? 'Sending...' : 'Send Password Reset Email'}
             </button>
           </form>
         )}
