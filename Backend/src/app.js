@@ -23,7 +23,8 @@ app.use(cors({
       allowedOrigins.includes(origin) ||
       origin.endsWith(".vercel.app") ||
       origin.endsWith(".duckdns.org") ||
-      origin.endsWith(".ondigitalocean.app")
+      origin.endsWith(".ondigitalocean.app") ||
+      /^https?:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(:\d+)?$/.test(origin)
     ) {
       return callback(null, true);
     }
