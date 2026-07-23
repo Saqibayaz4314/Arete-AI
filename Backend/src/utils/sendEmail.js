@@ -136,12 +136,42 @@ function getResetPasswordHtml(resetUrl, username = "Candidate") {
 }
 
 const sendEmail = async (options) => {
-  const smtpUser = process.env.SMTP_EMAIL || "ayazs4314@gmail.com";
-  const smtpPass = process.env.SMTP_PASSWORD || "aegilkgyqbfjmtzx";
-  const host = process.env.SMTP_HOST || "smtp.gmail.com";
-  const port = parseInt(process.env.SMTP_PORT || "587");
+  // 1. Resend API over HTTPS (Port 443) - Preferred for Instant Delivery
+  if (process.env.RESEND_API_KEY) {
+    try {
+      console.log("[Email Engine 1] Attempting delivery via Resend HTTPS API...");
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          from: "Arete AI <onboarding@resend.dev>",
+          to: [options.email],
+          subject: options.subject,
+          text: options.message,
+          html: options.html || (options.resetUrl ? getResetPasswordHtml(options.resetUrl, options.username || "Candidate") : undefined)
+        })
+      });
+      const data = await res.json();
+      if (res.status === 200 || data.id) {
+        console.log("🎉 [Resend API] Email delivered successfully via HTTPS to %s (ID: %s)", options.email, data.id);
+        return data;
+      }
+      console.warn("⚠️ [Resend API] Response:", res.status, data);
+    } catch (e) {
+      console.warn("⚠️ [Resend API] Error:", e.message);
+    }
+  }
 
-  console.log(`[Google SMTP] Connecting to ${host}:${port} as ${smtpUser}...`);
+  // 2. Nodemailer SMTP (Port 2525)
+  const smtpUser = process.env.SMTP_EMAIL;
+  const smtpPass = process.env.SMTP_PASSWORD;
+  const host = process.env.SMTP_HOST || "smtp-relay.brevo.com";
+  const port = parseInt(process.env.SMTP_PORT || "2525");
+
+  console.log(`[Email Engine 2] Connecting to ${host}:${port} as ${smtpUser}...`);
   const transporter = nodemailer.createTransport({
     host,
     port,
@@ -158,7 +188,7 @@ const sendEmail = async (options) => {
   });
 
   const message = {
-    from: `"${process.env.FROM_NAME || "Arete AI"}" <${process.env.FROM_EMAIL || smtpUser}>`,
+    from: `"${process.env.FROM_NAME || "Arete AI"}" <${process.env.FROM_EMAIL || "ayazs4314@gmail.com"}>`,
     to: options.email,
     subject: options.subject,
     text: options.message,
@@ -166,7 +196,7 @@ const sendEmail = async (options) => {
   };
 
   const info = await transporter.sendMail(message);
-  console.log("✅ [Google SMTP] Email sent successfully to %s (ID: %s)", options.email, info.messageId);
+  console.log("✅ [SMTP Engine 2] Email sent successfully to %s (ID: %s)", options.email, info.messageId);
   return info;
 };
 
