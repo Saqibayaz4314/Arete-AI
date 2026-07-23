@@ -1,12 +1,12 @@
 # Arete-AI — Autonomous AI Interview Coach & Calibration Engine
 
-[![Live URL](https://img.shields.io/badge/Live_App-https%3A%2F%2Farete--ai.duckdns.org-00C853?style=for-the-badge&logo=nginx&logoColor=white)](https://arete-ai.duckdns.org)
+[![Live App](https://img.shields.io/badge/Live_App-https%3A%2F%2Farete--ai.duckdns.org-00C853?style=for-the-badge&logo=nginx&logoColor=white)](https://arete-ai.duckdns.org)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-Saqibayaz4314%2FArete--AI-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Saqibayaz4314/Arete-AI)
-[![Node.js](https://img.shields.io/badge/Node.js-v22-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org)
-[![React](https://img.shields.io/badge/React-v19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
+[![Node.js](https://img.shields.io/badge/Node.js-v22.x-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![React](https://img.shields.io/badge/React-v19.x-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas_Cloud-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com)
-[![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com)
-[![SSL/HTTPS](https://img.shields.io/badge/SSL-Let's_Encrypt-003A70?style=for-the-badge&logo=letsencrypt&logoColor=white)](https://arete-ai.duckdns.org)
+[![Docker](https://img.shields.io/badge/Docker-2_Worker_Instances-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com)
+[![SSL/HTTPS](https://img.shields.io/badge/SSL-Let's_Encrypt_Active-003A70?style=for-the-badge&logo=letsencrypt&logoColor=white)](https://arete-ai.duckdns.org)
 
 An end-to-end, full-stack, enterprise-grade AI application designed to prepare job seekers for technical and behavioral interviews. Arete-AI ingests candidate resumes, self-descriptions, and target job descriptions to deliver calibrated match scores, 7-day personalized action plans, company-specific question banks, targeted micro-skill drills, and quantitative answer evaluations with AI-rewritten senior model answers.
 
@@ -14,58 +14,92 @@ An end-to-end, full-stack, enterprise-grade AI application designed to prepare j
 
 ## 🔗 Project Links
 
-* 🌐 **Live Deployed App (HTTPS):** [https://arete-ai.duckdns.org](https://arete-ai.duckdns.org)
-* 🐙 **Public GitHub Repository:** [https://github.com/Saqibayaz4314/Arete-AI](https://github.com/Saqibayaz4314/Arete-AI)
+* **Live Deployed App (HTTPS):** [https://arete-ai.duckdns.org](https://arete-ai.duckdns.org)
+* **Public GitHub Repository:** [https://github.com/Saqibayaz4314/Arete-AI](https://github.com/Saqibayaz4314/Arete-AI)
 
 ---
 
-## 📌 1. Problem Statement & Rationale
+## 📌 1. App Name, Problem Statement & Target Audience
 
-### The Problem
-Traditional technical interview preparation suffers from three major flaws:
-1. **Lack of Personalization:** Candidates memorize generic LeetCode problems or STAR behavioral answers without knowing if their background actually fits the specific job description.
-2. **Unidentified Skill Gaps:** Candidates apply for jobs without realizing critical missing technologies or ATS keyword gaps in their resumes until they are rejected.
-3. **No Real-Time Feedback:** Self-study provides no objective scoring for practice answers. Candidates have no way to know whether their technical explanations or behavioral stories meet tier-1 engineering standards.
+### App Name
+**Arete-AI** *(Derived from Ancient Greek Ἀρετή — meaning "Excellence" and reaching full potential)*
 
-### The Solution: Arete-AI
-Arete-AI bridges this gap by acting as a 24/7 personal AI interview coach:
-- **Profile Calibration Engine:** Cross-references candidate resumes against target job descriptions, accounting for target company culture (e.g. Google, Amazon, Meta, Startups).
-- **Targeted Action Roadmap:** Generates a daily 7-day preparation roadmap focusing specifically on high-severity skill gaps.
-- **Micro-Skill Drills:** Creates focused 3-question deep-dive drills for specific weak areas.
+### Target Audience
+- **Software Engineers & Developers:** Preparing for technical rounds (System Design, Data Structures, Framework-specific architecture).
+- **Product Managers & Analysts:** Preparing for behavioral STAR interviews and strategic execution scenarios.
+- **Job Seekers & Career Switchers:** Needing objective ATS resume alignment and actionable gap-closing roadmaps.
+
+### The Real Problem It Solves
+Traditional interview preparation suffers from three major flaws:
+1. **Uncalibrated Memorization:** Candidates memorize generic LeetCode problems or STAR behavioral answers without knowing if their background actually fits the specific target job description.
+2. **Hidden Skill & ATS Gaps:** Candidates apply for jobs without realizing critical missing technologies or ATS keyword gaps in their resumes until they receive rejections.
+3. **Absence of Real-Time Evaluation:** Self-study provides no objective scoring for practice answers. Candidates have no way to know whether their technical explanations or behavioral stories meet senior engineering standards.
+
+### How Arete-AI Solves It
+Arete-AI bridges this gap by acting as an autonomous 24/7 personal AI interview coach:
+- **Profile Calibration Engine:** Cross-references candidate resumes against target job descriptions, accounting for target company culture (e.g., Google, Amazon, Meta, Startups).
+- **Targeted 7-Day Action Roadmap:** Generates a daily 7-day preparation roadmap focusing specifically on high-severity skill gaps.
+- **Micro-Skill Practice Drills:** Creates focused 3-question deep-dive drills for specific weak areas.
 - **Quantitative Answer Evaluator:** Scores practice answers on Clarity, Structure (STAR method), and Depth (0-100 scale), providing actionable improvements and rewritten senior-level model answers.
 
 ---
 
 ## ✨ 2. Complete List of Features
 
-### 🎯 Core Features
-* 📄 **PDF Resume Parser:** Server-side text extraction from uploaded PDF resumes via `pdf-parse`.
-* 🏢 **Company-Specific Calibration:** Custom question tuning for target company cultures (Google DS&A, Amazon Leadership Principles, Meta high-velocity, Startups).
-* 📅 **Interactive 7-Day Action Plan:** Daily focus areas and actionable exercise checklists stored persistently per interview report.
-* 📊 **Candidate Progress Dashboard:** Visual progression tracking, score averages over time, and report history management.
-* 📑 **PDF Export Engine:** One-click client-side PDF export of full preparation reports via `jsPDF`.
+### Core Application Features
+* **PDF Resume Parser:** Server-side text extraction from uploaded PDF resumes via `pdf-parse`.
+* **Company-Specific Calibration:** Custom question tuning for target company cultures (Google DS&A, Amazon Leadership Principles, Meta high-velocity, Startups).
+* **Interactive 7-Day Action Plan:** Daily focus areas and actionable exercise checklists stored persistently per interview report.
+* **Candidate Progress Dashboard:** Visual progression tracking, score averages over time, and report history management.
+* **PDF Export Engine:** One-click client-side PDF export of full preparation reports via `jsPDF`.
 
-### 🤖 AI-Powered Features
-* 🎙️ **Interactive AI Mock Interview:** Real-time voice or text mock interview simulator powered by Web Speech API for voice recognition and live AI response evaluation.
-* 📈 **Fit Score & Gap Analysis:** Instant profile compatibility score (0-100%) and ranked technical skill gaps (low/medium/high severity).
-* 📝 **Resume Rewriter & ATS Audit:** Identifies weak, vague resume bullet points, provides rewritten versions with metrics/impact, and flags ATS keyword gaps.
-* 🎯 **Micro-Skill Practice Drills:** Generates 3 progressive scenario questions (fundamentals → applied → trade-offs) for any skill gap.
-* ⚡ **Quantitative Answer Evaluation:** Real-time scoring of candidate practice answers across Clarity, Structure, and Depth with senior model answer rewrites.
-* 🔄 **Resilient 3-Provider AI Waterfall:** Zero-downtime multi-model architecture across Groq, OpenRouter, and Google Gemini.
+### AI-Powered Features
+* **Interactive AI Voice & Text Mock Interview:** Real-time voice or text mock interview simulator powered by Web Speech API for voice recognition and live AI response evaluation.
+* **Fit Score & Gap Analysis:** Instant profile compatibility score (0-100%) and ranked technical skill gaps (low/medium/high severity).
+* **Resume Rewriter & ATS Audit:** Identifies weak, vague resume bullet points, provides rewritten versions with metrics/impact, and flags ATS keyword gaps.
+* **Micro-Skill Practice Drills:** Generates 3 progressive scenario questions (fundamentals → applied → trade-offs) for any skill gap.
+* **Quantitative Answer Evaluation:** Real-time scoring of candidate practice answers across Clarity, Structure, and Depth with senior model answer rewrites.
+* **Resilient 3-Provider AI Waterfall:** Zero-downtime multi-model architecture across Groq, OpenRouter, and Google Gemini.
 
-### 🛡️ Security & Performance Features
-* 🔐 **Dual-Token Authentication:** Secure HTTP-only cookies (`SameSite=Lax`) + Authorization Bearer header fallback for seamless session management.
-* ⚡ **Performance Optimization:** Nginx Gzip asset compression (69% bundle reduction) and 1GB server swap allocation.
-* 🔒 **HTTPS / SSL Encryption:** Automated Let's Encrypt TLS 1.2/1.3 encryption with HTTP to HTTPS redirect.
+### Security & Infrastructure Features
+* **Dual-Token Session Authentication:** Secure HTTP-only cookies (`SameSite=Lax`) + Authorization Bearer header fallback for seamless session management.
+* **Dual-Worker Load Balancing:** Docker containerized setup running 2 scaled backend worker instances behind Nginx reverse proxy.
+* **Bandwidth & Compression:** Optimized for high throughput on 4TB Bandwidth VPS host with Nginx Gzip compression level 6 (69% bundle reduction).
+* **HTTPS / SSL Encryption:** Automated Let's Encrypt TLS 1.2/1.3 encryption with HTTP (Port 80) to HTTPS (Port 443) redirection.
 
 ---
 
-## 🤖 3. AI Integration Deep-Dive
+## 🖼️ 3. Screenshots of the App in Action
+
+### 1. Home Page & Profile Calibration Workspace
+![Home Page](Frontend/public/Home%20page.png)
+
+### 2. Candidate Analytics & Progress Dashboard
+![Candidate Progress Dashboard](Frontend/public/Candidate%20Progress%20Dashboard.png)
+
+### 3. 7-Day Actionable Preparation Plan & Gap Analysis
+![Report Page](Frontend/public/Report%20page.png)
+
+### 4. ATS Resume Audit & Smart Bullet Point Rewriter
+![Resume Audit](Frontend/public/Resume%20score.png)
+
+### 5. Interview Strategy & Setup Screen
+![Interview Start Screen](Frontend/public/interview%20start%20screen.png)
+
+### 6. Interactive Technical & Behavioral Questions
+![Interview Questions](Frontend/public/interview%20questions.png)
+
+### 7. Real-Time AI Answer Evaluation & Model Rewrites
+![Interview Summary](Frontend/public/Interview%20fineshed%20summary.png)
+
+---
+
+## 🤖 4. AI Integration Deep-Dive & System Prompts
 
 Arete-AI implements a **3-Provider Resilient Waterfall System** designed for high throughput, zero rate-limit errors, and seamless automatic failover.
 
-### 🌊 AI Architecture & Fallback Flow
-```
+### AI Architecture & Fallback Flow
+```text
 [User Request] 
       │
       ▼
@@ -80,9 +114,9 @@ Arete-AI implements a **3-Provider Resilient Waterfall System** designed for hig
 
 ---
 
-### 📝 Exact System Prompts & Instructions Written by Developer
+### Exact System Prompts & Instructions Written by Developer
 
-#### Prompt 1: Report Generation & Strategy Calibration (`generateInvterviewReport`)
+#### System Prompt 1: Report Generation & Strategy Calibration (`generateInterviewReport`)
 ```text
 You are a senior technical interviewer and executive talent coach specialized in calibration for {targetCompany}.
 Your goal is to perform a rigorous analysis of the candidate's profile against the target Job Description to generate a high-fidelity, customized Interview Preparation Plan.
@@ -100,7 +134,7 @@ Your goal is to perform a rigorous analysis of the candidate's profile against t
 6. Return ONLY valid JSON matching the specified schema.
 ```
 
-#### Prompt 2: Targeted Micro-Skill Drill Generator (`generateSkillDrillQuestions`)
+#### System Prompt 2: Targeted Micro-Skill Drill Generator (`generateSkillDrillQuestions`)
 ```text
 You are an expert technical interviewer. Generate exactly 3 short, targeted interview questions specifically testing the candidate's knowledge of: "{skill}".
 
@@ -120,7 +154,7 @@ Return ONLY raw JSON:
 }
 ```
 
-#### Prompt 3: Answer Evaluator & Feedback Engine
+#### System Prompt 3: Answer Evaluator & Feedback Engine (`evaluateAnswer`)
 ```text
 You are an elite interview coach. Analyze the candidate's practice answer against the question and interviewer intention.
 Evaluate overall score (0-100), clarityScore, structureScore (STAR method compliance for behavioral), and depthScore.
@@ -130,12 +164,12 @@ Return ONLY valid JSON matching the evaluation schema.
 
 ---
 
-### 💡 Sample Input & Output
+### Sample Input & Output JSON
 
-#### Input
-* **Resume:** Full Stack Developer with React, Node.js, and MongoDB experience.
-* **Target Job:** Senior Backend Engineer (AWS, Microservices, Redis, Kubernetes).
-* **Target Company:** Amazon
+#### Sample Input
+- **Resume:** Full Stack Developer with React, Node.js, and MongoDB experience.
+- **Target Job:** Senior Backend Engineer (AWS, Microservices, Redis, Kubernetes).
+- **Target Company:** Amazon
 
 #### Sample Output JSON (Excerpt)
 ```json
@@ -168,45 +202,48 @@ Return ONLY valid JSON matching the evaluation schema.
 
 ---
 
-## 🛠️ 4. Technology Stack & Architecture
+## 🛠️ 5. Tools, Services & Stack Breakdown
 
 ### System Architecture Diagram
 ```mermaid
 graph TD
     User[Client Browser] -->|HTTPS / Port 443| Nginx[Nginx Reverse Proxy & Static Host]
-    Nginx -->|Serves Production Assets| React[Vite React SPA]
-    Nginx -->|Proxies /api/*| Express[Node.js Express REST API]
+    Nginx -->|Serves Production Bundle| React[Vite React SPA]
+    Nginx -->|Load Balances /api/*| Backend1[Node.js Backend Worker 1]
+    Nginx -->|Load Balances /api/*| Backend2[Node.js Backend Worker 2]
 
     subgraph Backend Services
-        Express -->|Session Auth| Auth[JWT & Bcrypt Cookie Auth]
-        Express -->|Data Persistence| Mongo[(MongoDB Atlas Cloud DB)]
-        Express -->|PDF Parsing| PDF[pdf-parse Engine]
+        Backend1 -->|Session Auth| Auth[JWT & Cookie Auth]
+        Backend2 -->|Session Auth| Auth
+        Backend1 -->|Data Persistence| Mongo[(MongoDB Atlas Cloud DB)]
+        Backend2 -->|Data Persistence| Mongo
     end
 
     subgraph 3-Provider AI Waterfall
-        Express -->|1st Priority| Groq[Groq Cloud API - Llama 3.3 70B / 3.1 8B]
-        Express -->|2nd Priority| OpenRouter[OpenRouter - Llama 3.3 / Gemma 3 / Mistral]
-        Express -->|3rd Priority| Gemini[Google Gemini API - 1.5 Flash / 2.0 Flash]
+        Backend1 -->|1st Priority| Groq[Groq Cloud API - Llama 3.3 70B]
+        Backend1 -->|2nd Priority| OpenRouter[OpenRouter - Llama 3.3 / Gemma 3]
+        Backend1 -->|3rd Priority| Gemini[Google Gemini API - Flash]
     end
 ```
 
-### Stack Breakdown
-| Component | Technology | Purpose |
+### Complete Stack & Services Table
+| Layer | Tool / Service | Purpose |
 | :--- | :--- | :--- |
-| **Frontend** | React 19, Vite, SCSS, Axios | Fast, modern client-side Single Page Application |
-| **Voice & Speech** | Web Speech API (SpeechRecognition) | Real-time voice-to-text input for mock interviews |
-| **Backend** | Node.js v22, Express.js | Asynchronous REST API server |
+| **Frontend Framework** | React v19.x, Vite, SCSS, Axios | Modern client-side Single Page Application |
+| **Voice Processing** | Web Speech API (`SpeechRecognition`) | Real-time voice-to-text input for mock interviews |
+| **Backend Engine** | Node.js v22.x, Express.js | Asynchronous REST API server |
 | **Database** | MongoDB Atlas | Cloud NoSQL database with Mongoose ODM |
-| **Authentication** | JWT, Cookie-Parser, BcryptJS | Secure session cookies & Bearer fallback |
-| **AI Providers** | Groq Cloud, OpenRouter, Google Gemini | Resilient 3-provider LLM inference engine |
-| **Containerization** | Docker, Docker Compose | Multi-container orchestration (Backend + Frontend Nginx) |
-| **Web Server** | Nginx Alpine | Reverse proxy, HTTPS termination, Gzip compression |
-| **Host Server** | DigitalOcean Droplet (Ubuntu 24.04) | Production VPS deployment |
-| **SSL / Domain** | Let's Encrypt, DuckDNS | Automated HTTPS encryption and DNS resolution |
+| **Authentication** | JWT, Cookie-Parser, BcryptJS | HTTP-only session cookies with Bearer fallback |
+| **Email Service** | Brevo SMTP (Port 2525) & Resend HTTPS API | Automated password reset emails |
+| **AI Inference** | Groq Cloud, OpenRouter, Google Gemini | Resilient 3-provider LLM inference engine |
+| **Containerization** | Docker, Docker Compose | 2-Worker scaled container orchestration |
+| **Web Server** | Nginx Alpine | Reverse proxy, SSL termination, Gzip compression |
+| **Host Infrastructure** | DigitalOcean VPS (Ubuntu 24.04, 4TB Bandwidth) | High-availability production cloud hosting |
+| **SSL / Domain** | Let's Encrypt, DuckDNS | Automated TLS encryption and DNS resolution |
 
 ---
 
-## ☁️ 5. Production Deployment & DevOps Architecture
+## ☁️ 6. Production Deployment & DevOps Architecture
 
 Arete-AI is deployed on a production-grade Virtual Private Server (VPS) infrastructure engineered for high availability, security, and low latency.
 
@@ -216,32 +253,35 @@ flowchart LR
     Redirect -->|Port 443 HTTPS| SSL[Let's Encrypt TLS 1.2/1.3]
     Client -->|HTTPS Traffic| SSL
     
-    subgraph DigitalOcean_Droplet[DigitalOcean Droplet Host - Ubuntu 24.04 LTS]
-        SSL --> NginxContainer[arete-frontend Container Nginx Engine]
-        NginxContainer -->|Serves Static Dist| StaticFiles[Vite React Production Bundle]
-        NginxContainer -->|Proxy Pass /api/*| BackendContainer[arete-backend Container Node.js]
+    subgraph DigitalOcean_Droplet[DigitalOcean Host - 4TB Bandwidth - Ubuntu 24.04]
+        SSL --> NginxContainer[arete-frontend Nginx Container]
+        NginxContainer -->|Serves Static Dist| StaticFiles[Vite React Bundle]
+        NginxContainer -->|Load Balances /api/*| Worker1[arete-backend-1 Worker]
+        NginxContainer -->|Load Balances /api/*| Worker2[arete-backend-2 Worker]
     end
 
     subgraph External_Cloud_Services[External Cloud Infrastructure]
-        BackendContainer -->|TLS Connection| Atlas[(MongoDB Atlas Cloud Database)]
-        BackendContainer -->|HTTPS REST| AIWaterfall[Groq / OpenRouter / Gemini AI]
+        Worker1 -->|TLS Connection| Atlas[(MongoDB Atlas Cloud DB)]
+        Worker2 -->|TLS Connection| Atlas
+        Worker1 -->|HTTPS REST| AIWaterfall[Groq / OpenRouter / Gemini AI]
+        Worker2 -->|HTTPS REST| AIWaterfall
     end
 ```
 
-### Deployment Technical Breakdown
-* **VPS Host Environment:** DigitalOcean Droplet running **Ubuntu 24.04 LTS** equipped with 1GB allocated Swap space to optimize CPU memory usage under concurrent AI workloads.
-* **Containerized Infrastructure:** Orchestrated via `docker-compose.yml` isolating services into decoupled containers (`arete-frontend` and `arete-backend`) connected over an internal Docker bridge network.
+### Production Environment Features
+* **VPS Host Environment:** DigitalOcean Droplet running **Ubuntu 24.04 LTS** with 4TB Bandwidth and 1GB allocated Swap space.
+* **Containerized 2-Worker Scaling:** Orchestrated via `docker-compose.yml` running 2 scaled backend workers (`arete-backend-1` and `arete-backend-2`) behind an Nginx reverse proxy.
 * **Nginx Reverse Proxy & Asset Compression:**
-  - Enforces **SSL Termination** using Let's Encrypt certificates (`/etc/letsencrypt`).
-  - Automatically redirects all incoming Port 80 HTTP traffic (including raw IP `139.59.1.104`) to `https://arete-ai.duckdns.org`.
+  - Enforces **SSL Termination** using genuine Let's Encrypt certificates (`/etc/letsencrypt`).
+  - Automatically redirects all incoming Port 80 HTTP traffic to `https://arete-ai.duckdns.org`.
   - Enables **Gzip Compression** level 6 (reducing bundle transmission size from 1.2MB to 379KB).
-  - Configures extended 120-second proxy timeouts (`proxy_read_timeout 120s`) for long-running LLM completions.
-* **Database Infrastructure:** Cloud-hosted **MongoDB Atlas** cluster with encrypted connections (`MONGO_URI`).
-* **Domain & DNS:** Integrated with **DuckDNS** (`arete-ai.duckdns.org`) pointing dynamically to the DigitalOcean IPv4 address.
+  - Configures 120-second proxy timeouts (`proxy_read_timeout 120s`) for LLM completions.
+* **Database Infrastructure:** Cloud-hosted **MongoDB Atlas** cluster with encrypted connection strings (`MONGO_URI`).
+* **Domain & DNS:** Integrated with **DuckDNS** (`arete-ai.duckdns.org`) pointing dynamically to the server IPv4 address.
 
 ---
 
-## 🗄️ 5. Database Schema (ER Diagram)
+## 🗄️ 7. Database Schema (ER Diagram)
 
 ```mermaid
 erDiagram
@@ -299,27 +339,29 @@ erDiagram
 
 ---
 
-## 🚀 6. Local Development Setup (Step-by-Step)
+## 🚀 8. How to Run the Project Locally & via Docker
 
 ### Prerequisites
 * **Node.js:** v18.x or v22.x
 * **npm:** v9.x or higher
-* **MongoDB:** Local instance or MongoDB Atlas URI
+* **MongoDB:** Local MongoDB instance or MongoDB Atlas URI
 * **API Key:** Groq API key (free at [console.groq.com](https://console.groq.com))
 
 ---
 
-### Step 1: Clone Repository
+### Method 1: Local Development Run (Step-by-Step)
+
+#### Step 1: Clone Repository
 ```bash
 git clone https://github.com/Saqibayaz4314/Arete-AI.git
 cd Arete-AI
 ```
 
-### Step 2: Configure & Run Backend
+#### Step 2: Configure & Start Backend
 ```bash
 cd Backend
 
-# Create environment file
+# Create environment configuration file
 cp .env.example .env
 ```
 
@@ -331,34 +373,46 @@ JWT_SECRET=your_super_secret_jwt_key
 GROQ_API_KEY=gsk_your_groq_api_key
 OPENROUTER_API_KEY=sk-or-v1-optional_openrouter_key
 GOOGLE_GENAI_API_KEY=AIzaSy_optional_gemini_key
+SMTP_HOST=smtp-relay.brevo.com
+SMTP_PORT=2525
+SMTP_EMAIL=your_smtp_email
+SMTP_PASSWORD=your_smtp_password
 ```
 
-Install dependencies and start the backend:
+Install dependencies and start backend server:
 ```bash
 npm install
 npm start
 ```
-The backend will run on `http://localhost:3000`.
+The backend REST API server will run on `http://localhost:3000`.
 
----
-
-### Step 3: Configure & Run Frontend
-Open a new terminal window:
+#### Step 3: Configure & Start Frontend
+Open a new terminal tab:
 ```bash
 cd Frontend
 npm install
 npm run dev
 ```
-The frontend will run on `http://localhost:5173`.
+The frontend SPA will run on `http://localhost:5173`.
 
 ---
 
-### Alternative: Run via Docker Compose
-To spin up the full production stack locally with a single command:
+### Method 2: Single-Command Docker Deployment
+
+To spin up the full production stack locally or on a server with Docker Compose:
+
 ```bash
-docker compose up -d --build
+# 1. Clone repository
+git clone https://github.com/Saqibayaz4314/Arete-AI.git
+cd Arete-AI
+
+# 2. Setup environment variables in Backend/.env
+cp Backend/.env.example Backend/.env
+
+# 3. Launch containerized stack
+docker compose up -d --scale backend=2 --build
 ```
-Access the application at `http://localhost`.
+Access the application at `http://localhost` (or `https://arete-ai.duckdns.org`).
 
 ---
 
