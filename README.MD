@@ -12,10 +12,16 @@ An end-to-end, full-stack, enterprise-grade AI application designed to prepare j
 
 ---
 
-## 🔗 Project Links
+## 🔗 Project Links & Demo Access
 
 * **Live Deployed App (HTTPS):** [https://arete-ai.duckdns.org](https://arete-ai.duckdns.org)
 * **Public GitHub Repository:** [https://github.com/Saqibayaz4314/Arete-AI](https://github.com/Saqibayaz4314/Arete-AI)
+
+> [!TIP]
+> ### 🔑 1-Click Instant Evaluation Demo Credentials
+> For instant testing & evaluation without registering a new account, use the pre-configured demo account below:
+> - **Email:** `test@test.com`
+> - **Password:** `test`
 
 ---
 
