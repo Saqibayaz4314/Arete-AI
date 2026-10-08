@@ -3,6 +3,7 @@ const pdfParse = require("pdf-parse")
 const { generateInvterviewReport, generateSkillDrillQuestions } = require("../services/ai.service")
 const interviewReportModel = require("../models/interviewReport.model")
 const { isContentAppropriate } = require("../services/moderation.service")
+const { log, getIP } = require("../utils/activityLogger")
 
 /**
  * @description Generate an interview report based on the candidate's resume, self-description, and job description
@@ -65,6 +66,7 @@ async function generateInterviewReportController(req, res){
       ...interviewReportByAi
     })
 
+    log({ user: req.user.id, username: req.user.username, action: "GENERATE_REPORT", details: `Target: ${targetCompany || "N/A"} | Report ID: ${interviewReport._id}`, ip: getIP(req), userAgent: req.headers["user-agent"] })
     res.status(201).json({
       message: "Interview report generated successfully",
       interviewReport
@@ -205,6 +207,7 @@ async function generateSkillDrillController(req, res) {
       questionType: "technical"
     });
 
+    log({ user: req.user.id, username: req.user.username, action: "GENERATE_SKILL_DRILL", details: `Skill: ${skillObj.skill}`, ip: getIP(req), userAgent: req.headers["user-agent"] })
     res.status(200).json({
       message: "Skill drill questions generated successfully",
       skill: skillObj.skill,

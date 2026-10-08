@@ -27,7 +27,7 @@ const Register = () => {
     try {
       const success = await handleRegister({username, email, password, confirmPassword})
       if (success) {
-        navigate("/")
+        navigate("/app")
       }
     } finally {
       setIsSubmitting(false)

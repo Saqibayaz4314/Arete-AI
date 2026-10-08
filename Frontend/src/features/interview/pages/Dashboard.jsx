@@ -152,7 +152,7 @@ const Dashboard = () => {
           <h1>Candidate Progress Dashboard</h1>
           <p className="subtitle">Track your prep scores, practice history, and skill improvements</p>
         </div>
-        <button className="button primary-button flex-btn" onClick={() => navigate("/")}>
+        <button className="button primary-button flex-btn" onClick={() => navigate("/app")}>
           <Icons.Plus /> New Arete Session
         </button>
       </div>
@@ -381,7 +381,7 @@ const Dashboard = () => {
         ) : (
           <div className="empty-history-box">
             <p>You haven't generated any interview reports yet.</p>
-            <button className="button primary-button" onClick={() => navigate("/")}>
+            <button className="button primary-button" onClick={() => navigate("/app")}>
               Start First Preparation
             </button>
           </div>

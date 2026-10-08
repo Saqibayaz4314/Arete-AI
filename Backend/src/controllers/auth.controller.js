@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const crypto = require("crypto")
 const sendEmail = require("../utils/sendEmail")
+const { log, getIP } = require("../utils/activityLogger")
 
 /**
 @name registerUserController
@@ -58,6 +59,7 @@ async function registerUserController(req, res){
       sameSite: isSecure ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000 // 1 day
     })
+    log({ user: user._id, username: user.username, email: user.email, action: "REGISTER", details: "New account created", ip: getIP(req), userAgent: req.headers["user-agent"] })
     res.status(201).json({
       message: "User Registered Successfully",
       token,
@@ -93,6 +95,7 @@ async function loginUserController(req, res){
     $or: [{ email: cleanEmail }, { username: email ? email.trim() : "" }]
   })
   if(!user){
+    log({ action: "LOGIN_FAILED", email: cleanEmail, details: "User not found", ip: getIP(req), userAgent: req.headers["user-agent"], status: "failed" })
     return res.status(400).json({
       message: "Invalid email or password"
     })
@@ -100,6 +103,7 @@ async function loginUserController(req, res){
 
   const isPasswordValid = await bcrypt.compare(password, user.password)
   if(!isPasswordValid){
+    log({ user: user._id, username: user.username, email: user.email, action: "LOGIN_FAILED", details: "Wrong password", ip: getIP(req), userAgent: req.headers["user-agent"], status: "failed" })
     return res.status(400).json({
       message: "Invalid email or password"
     })
@@ -116,6 +120,7 @@ async function loginUserController(req, res){
     sameSite: isSecure ? "none" : "lax",
     maxAge: 24 * 60 * 60 * 1000
   })
+  log({ user: user._id, username: user.username, email: user.email, action: "LOGIN", details: "Logged in successfully", ip: getIP(req), userAgent: req.headers["user-agent"] })
   res.status(200).json({
     message: "User loggedIn successfully.",
     token,
@@ -138,6 +143,9 @@ async function logoutUserController(req, res){
   const token = req.cookies.token
   if(token){
     await tokenBlackListModel.create({token})
+  }
+  if (req.user) {
+    log({ user: req.user.id, username: req.user.username, action: "LOGOUT", details: "Logged out", ip: getIP(req), userAgent: req.headers["user-agent"] })
   }
   res.clearCookie("token")
   res.status(200).json({

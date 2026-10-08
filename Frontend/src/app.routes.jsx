@@ -8,8 +8,22 @@ import Home from "./features/interview/pages/Home"
 import Interview from "./features/interview/pages/interview"
 import Dashboard from "./features/interview/pages/Dashboard"
 import MockInterview from "./features/interview/pages/MockInterview"
+import MarketingLayout from "./features/marketing/MarketingLayout"
+import Landing from "./features/marketing/Landing"
+import Features from "./features/marketing/Features"
+import Docs from "./features/marketing/Docs"
+import Pricing from "./features/marketing/Pricing"
 
 export const router = createBrowserRouter([
+  {
+    element: <MarketingLayout />,
+    children: [
+      { path: "/", element: <Landing /> },
+      { path: "/features", element: <Features /> },
+      { path: "/docs", element: <Docs /> },
+      { path: "/pricing", element: <Pricing /> }
+    ]
+  },
   {
     path: "/login",
     element: <Login />
@@ -27,7 +41,7 @@ export const router = createBrowserRouter([
     element: <ResetPassword />
   },
   {
-    path: "/",
+    path: "/app",
     element: <Protected><Home /></Protected>
   },
   {

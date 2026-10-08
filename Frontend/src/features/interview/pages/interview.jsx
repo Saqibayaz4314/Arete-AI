@@ -373,7 +373,7 @@ const Interview = () => {
     <div className="interview-layout-wrapper">
       {/* Back navigation + Download PDF button */}
       <div className="workspace-nav-bar" style={{ display: "flex", gap: "1rem", marginBottom: "1.2rem", flexWrap: "wrap", alignItems: "center" }}>
-        <button className="back-home-btn" onClick={() => navigate("/")} title="Go back to generator form">
+        <button className="back-home-btn" onClick={() => navigate("/app")} title="Go back to generator form">
           <Icons.ArrowLeft />
           <span>Generator Form</span>
         </button>

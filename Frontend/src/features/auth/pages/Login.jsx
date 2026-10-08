@@ -18,7 +18,7 @@ const Login = () => {
     try {
       const success = await handleLogin(email, password)
       if (success) {
-        navigate("/")
+        navigate("/app")
       }
     } finally {
       setIsSubmitting(false)

@@ -1,5 +1,6 @@
 @use "./styles/button.scss";
 @use "./features/interview/style/answerFeedback.scss";
+@use "./features/marketing/marketing.scss";
 
 :root {
   // Base
@@ -181,4 +182,4 @@ body,
 
 .animate-slide-in {
   animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+}

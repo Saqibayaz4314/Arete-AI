@@ -3,6 +3,7 @@ const interviewReportModel = require("../models/interviewReport.model");
 const answerEvaluationModel = require("../models/answerEvaluation.model");
 const { evaluateAnswer } = require("../services/evaluation.service");
 const { isContentAppropriate } = require("../services/moderation.service");
+const { log, getIP } = require("../utils/activityLogger");
 
 async function evaluateQuestionAnswerController(req, res) {
   const { interviewId, questionType, questionIndex } = req.params;
@@ -83,6 +84,7 @@ async function evaluateQuestionAnswerController(req, res) {
         upsert: true,
       });
 
+    log({ user: req.user.id, username: req.user.username, action: "EVALUATE_ANSWER", details: `Type: ${questionType} | Q#${idx} | Report: ${interviewId}`, ip: getIP(req), userAgent: req.headers["user-agent"] })
     res.status(200).json({
       message: "Answer evaluated successfully",
       evaluation: evaluationDoc,
