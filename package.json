@@ -1,0 +1,13 @@
+{
+  "name": "arete-ai",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npm --prefix Backend start",
+    "build": "npm ci --prefix Backend --omit=dev && npm ci --prefix Frontend --include=dev && npm run build --prefix Frontend",
+    "heroku-postbuild": "npm run build"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

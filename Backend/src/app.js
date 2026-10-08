@@ -2,6 +2,7 @@ const express = require("express")
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
 const rateLimit = require("express-rate-limit")
+const path = require("path")
 
 
 const app = express()
@@ -16,7 +17,7 @@ const allowedOrigins = [
   process.env.CLIENT_URL
 ].filter(Boolean);
 
-app.use(cors({
+const corsMiddleware = cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true); // allow curl / server-to-server
     if (
@@ -31,7 +32,18 @@ app.use(cors({
     return callback(new Error("Not allowed by CORS: " + origin));
   },
   credentials: true
-}))
+})
+
+app.use((req, res, next) => {
+  const requestOrigin = req.get("origin")
+  const serverOrigin = `${req.protocol}://${req.get("host")}`
+
+  if (requestOrigin && requestOrigin === serverOrigin) {
+    return next()
+  }
+
+  return corsMiddleware(req, res, next)
+})
 
 // Rate limiter for AI-calling routes — allows up to 120 AI operations per hour per IP
 const aiCallLimiter = rateLimit({
@@ -46,10 +58,25 @@ const aiCallLimiter = rateLimit({
 const authRouter = require('./routes/auth.routes')
 const interviewRouter = require('./routes/interview.routes')
 const evaluationRouter = require('./routes/evaluation.routes')
+const adminRouter = require('./routes/admin.routes')
 
 /* using all the routes here */ 
 app.use("/api/auth", authRouter)
 app.use("/api/interview", aiCallLimiter, interviewRouter)
 app.use("/api/evaluation", aiCallLimiter, evaluationRouter)
+app.use("/api/admin", adminRouter)
 
-module.exports = app
+// Serve the Vite build from the same Node process in single-service deployments.
+const frontendDistPath = path.resolve(__dirname, "../../Frontend/dist")
+app.use(express.static(frontendDistPath))
+
+// React Router handles browser routes after the initial HTML response.
+app.get(/.*/, (req, res) => {
+  if (req.path.startsWith("/api/")) {
+    return res.status(404).json({ message: "API route not found" })
+  }
+
+  return res.sendFile(path.join(frontendDistPath, "index.html"))
+})
+
+module.exports = app
