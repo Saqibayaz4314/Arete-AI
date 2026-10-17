@@ -23,6 +23,9 @@ web_modules/
 .env.*
 !.env.example
 
+# Local database connection test
+/postgres-test/
+
 # Build & Dist
 dist/
 dist-ssr/

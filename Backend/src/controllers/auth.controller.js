@@ -184,8 +184,8 @@ async function forgotPasswordController(req, res) {
     const resetToken = user.getResetPasswordToken();
     await user.save({ validateBeforeSave: false });
 
-    // Create reset url (fallback to live HTTPS domain)
-    const baseUrl = process.env.CLIENT_URL || "https://arete-ai.duckdns.org";
+    // Create reset url using the deployed frontend URL.
+    const baseUrl = process.env.CLIENT_URL || "https://arete-ai-323035b4a456.herokuapp.com";
     const resetUrl = `${baseUrl}/reset-password/${resetToken}`;
 
     const message = `You are receiving this email because a password reset request was made for your Arete-AI account. Please use the link below to set a new password:\n\n${resetUrl}\n\nThis link expires in 10 minutes.`;
